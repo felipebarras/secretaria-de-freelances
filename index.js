@@ -1,4 +1,4 @@
-const { Client, LocalAuth } = require('whatsapp-web.js');
+const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const axios = require('axios');
 
@@ -21,10 +21,13 @@ client.on('qr', (qr) => {
 client.on('message_create', async (message) => {
   const content = message.body;
 
-  console.log(content);
   // replying to messages
   if (content === 'pls meme') {
-    const meme = await axios();
+    const meme = await axios('https://meme-api.com/gimme').then((res) => res.data);
+
+    client.sendMessage(message.from, await MessageMedia.fromUrl(meme.url));
+  } else if (content === 'pls joke') {
+    const joke = await axios('').then((res) => res.data);
   }
 });
 
