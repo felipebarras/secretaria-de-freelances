@@ -1,5 +1,6 @@
-const { Clien, LocalAuth } = require('whatsapp-web.js');
+const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
+const axios = require('axios');
 
 // Create a new client instance
 const client = new Client({
@@ -17,14 +18,13 @@ client.on('qr', (qr) => {
 });
 
 // listening to all incoming messages
-client.on('message_create', (message) => {
-  console.log(message.body);
+client.on('message_create', async (message) => {
+  const content = message.body;
+
+  console.log(content);
   // replying to messages
-  if (message.body === 'customer text') {
-    // sending a message
-    client.sendMessage(message.from, 'answer text');
-    // reply directly to the message
-    message.reply('answer text');
+  if (content === 'pls meme') {
+    const meme = await axios();
   }
 });
 
