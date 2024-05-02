@@ -1,24 +1,20 @@
+const { Client, MessageMedia, NoAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const axios = require('axios');
 
 // Create a new client instance
 const client = new Client({
-  authStrategy: new LocalAuth(),
-  webVersionCache: {
-    type: 'remote',
-    remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html'
-  }
+  puppeteer: { args: ['--no-sandbox', '--disable-setuid-sandbox'] }
+});
+
+// When the client is ready, run this code (only once)
+client.on('ready', () => {
+  console.log('Client is ready!');
 });
 
 // When the client received QR-Code
 client.on('qr', (qr) => {
   qrcode.generate(qr, { small: true });
-});
-
-// When the client is ready, run this code (only once)
-client.once('ready', () => {
-  console.log('Client is ready!');
 });
 
 // listening to all incoming messages
