@@ -27,7 +27,10 @@ client.on('message_create', async (message) => {
 
     client.sendMessage(message.from, await MessageMedia.fromUrl(meme.url));
   } else if (content === 'pls joke') {
-    const joke = await axios('').then((res) => res.data);
+    const joke = await axios('https://v2.jokeapi.dev/joke/Any?safe-mode').then((res) => res.data);
+
+    const jokeMsg = await client.sendMessage(message.from, joke.setup);
+    if (joke.delivery) setTimeout(() => jokeMsg.reply(joke.delivery), 5000);
   }
 });
 
